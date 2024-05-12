@@ -1,0 +1,9 @@
+<h1 class="fw-bold pb-3">Blog Posts</h1>
+
+<ul>
+  <% @posts.each do |post| %>
+    <li><%= link_to post.title, post %></li>
+  <% end %>
+</ul>
+
+<%= link_to "New Blog Post", new_post_path %>

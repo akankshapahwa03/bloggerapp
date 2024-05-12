@@ -1,0 +1,11 @@
+<p><strong><%= reply.user.email %></strong> : <%= reply.body %></p>
+
+<%= link_to 'Add a Reply', new_post_comment_path(@post, parent_id: reply.id), remote: true, class: 'd-block' %>
+<div class= "ps-4">
+  <% if reply.replies.any? %>
+    <% reply.replies.each do |reply| %> 
+ <%= render 'comments/reply', reply: reply %> 
+ <br>
+    <% end %>
+  <% end %>
+  </div>
