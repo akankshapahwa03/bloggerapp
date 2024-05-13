@@ -8,6 +8,7 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
+    @user = @post.user
     @comments = @post.comments.order(id: :desc)
 
   end
@@ -18,11 +19,11 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
-
+    @post.user_id = current_user.id
       if @post.save
         redirect_to @post
       else
-        render :new, status: :unprocessable_entity
+        render 'new', status: :unprocessable_entity
       end
   end
 

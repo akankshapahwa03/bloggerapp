@@ -1,9 +1,12 @@
+
+
 <% unless comment.parent_id || !comment.persisted? %>
 <div class="p-2">
   <div class="my-2 bg-light">
     <strong><%= comment.user.email %></strong> : <%= comment.body %></p>
 
-  <%= link_to 'Add a Reply', new_post_comment_path(@post, parent_id: comment.id), remote: true, class: 'd-block' %>
+  <%= link_to 'Add a Reply', new_post_comment_path(@post, parent_id: comment.id), remote: true %>
+
 <div class= "ps-4">
   <% if comment.replies.any? %>
     <% comment.replies.each do |reply| %> 
@@ -16,12 +19,12 @@
 
 
 <br>
-
+<% if @post.user_id == current_user.id || current_user.admin? %>
   <%= link_to 'Delete Comment', [comment.post, comment], data: {
-                  turbo_method: :delete,
-                  turbo_confirm: "Are you sure?"
-                } %>
-                
+                turbo_method: :delete,
+                turbo_confirm: "Are you sure?"
+              } %>
+            <% end %>          
 </div>
 </div>
 <% end %>

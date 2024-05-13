@@ -7,7 +7,7 @@
       <% end %> 
   </p>
   <p>
-    <%= form.label :body %><br>
+    <%= form.label "Comment here: " %><br>
     <%= form.text_area :body, class: 'form-control' %>
      <% @post.errors.full_messages_for(:body).each do |message| %>
       <div class="text-danger p-1"> <%= message %> </div>
