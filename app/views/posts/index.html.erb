@@ -1,9 +1,13 @@
+<div class="container my-3">
+
+</div>
 <h1 class="fw-bold pb-3">Blog Posts</h1>
 
-<ul>
+<div>
   <% @posts.each do |post| %>
-    <li><%= link_to post.title, post %></li>
+    <div class="bg-light p-3 m-2"><p><%= link_to post.title, post, class: "fw-bold" %> <small>by: <%= post.user.name %></small><p></div>
   <% end %>
-</ul>
-
-<%= link_to "New Blog Post", new_post_path %>
+</div>
+<div class="py-3">
+  <%= link_to "New Blog Post", new_post_path, class: 'btn btn-primary' %>
+</div>

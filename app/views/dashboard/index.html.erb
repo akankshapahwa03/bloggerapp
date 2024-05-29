@@ -1,10 +1,11 @@
-<%= render 'shared/navbar' %>
+
 <div class="container">
 <h1 class= "fw-bold">Hello, welcome to admin dashboard</h1>
 <h4 class="fw-bold">List of users</h2>
 <div class="container">
-<% @user.each do |user| %>
+  <% @user.each do |user| %>
     <li><%= user.email %></li>
   <% end %>
+
 </div>
 </div>

@@ -1,15 +1,19 @@
-<p><strong><%= reply.user.email %></strong> : <%= reply.body %></p>
+<div><strong><%= reply.user.name %></strong> : <%= reply.body %></div>
+ 
 
-<p><%= link_to 'Add a Reply', new_post_comment_path(@post, parent_id: reply.id), remote: true %>
-| <%= link_to 'Delete Reply', [reply.post, reply], data: {
-                turbo_method: :delete,
-                turbo_confirm: "Are you sure?"
-              } %></p>
+
+<%= link_to 'reply', '#', class: 'comment-reply-form', remote: true, onclick: 'showNextSibling(event, this); return false;' %> 
+<% if current_user.admin? %>
+    <%= button_to 'delete', [reply.post, reply], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary' %> 
+    <% end %>
+<div style="display: none;">
+  <%= render 'comments/reply_form', parent_id: reply.id %>
+</div>
 
 <div class= "ps-3">
   <% if reply.replies.any? %>
     <% reply.replies.each do |reply| %> 
- <%= render 'comments/reply', reply: reply %> 
+  <%= render 'comments/reply', reply: reply %> 
  <br>
     <% end %>
   <% end %>

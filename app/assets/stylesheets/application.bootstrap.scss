@@ -1,8 +1,15 @@
-@import 'bootstrap/scss/bootstrap';
-@import 'bootstrap-icons/font/bootstrap-icons';
-
+@import "bootstrap/scss/bootstrap";
+@import "bootstrap-icons/font/bootstrap-icons";
 
 .alert {
   background-color: transparent;
   color: inherit;
+}
+
+.alert-success {
+  color: green;
+}
+
+.alert-danger {
+  color: red;
 }

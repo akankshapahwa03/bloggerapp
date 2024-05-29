@@ -1,16 +1,16 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!, except: :index
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_categories
 
   def index
-    @posts = Post.all
+    @posts = Post.all.order(:created_at)
   end
 
   def show
     @post = Post.find(params[:id])
     @user = @post.user
+    @comment = @post.comments.new(parent_id: params[:parent_id])
     @comments = @post.comments.order(id: :desc)
-
   end
 
   def new
@@ -19,11 +19,13 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
-    @post.user_id = current_user.id
+    
       if @post.save
         redirect_to @post
+        flash[:notice] = "Post created successfully!"
       else
         render 'new', status: :unprocessable_entity
+        flash[:alert] = "Post could not be created!"
       end
   end
 
@@ -43,14 +45,15 @@ class PostsController < ApplicationController
   def destroy
     @post = Post.find(params[:id])
     @post.destroy
-
     redirect_to root_path
+    flash[:notice] = "Post deleted successfully!"
+ 
   end
 
 
   private
     def post_params
-      params.require(:post).permit(:title, :description, :category_id)
+      params.require(:post).permit(:title, :description, :category_id, :user_id)
     end
 
     def set_categories

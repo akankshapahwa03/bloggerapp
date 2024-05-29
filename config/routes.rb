@@ -1,13 +1,12 @@
 Rails.application.routes.draw do
 
-  devise_for :users 
-    namespace :admin do
-      resources :dashboard
-  end
-
   root 'posts#index'
+  devise_for :users 
+  
   get 'static_pages/about'
+  resources :dashboard
+  
   resources :posts do
-    resources :comments
+    resources :comments, only: [:create, :edit, :update, :destroy]
     end
 end

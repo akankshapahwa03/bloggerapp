@@ -1,30 +1,31 @@
 
 
 <% unless comment.parent_id || !comment.persisted? %>
-<div class="p-2">
-  <div class="my-2 bg-light">
-    <strong><%= comment.user.email %></strong> : <%= comment.body %></p>
 
-  <%= link_to 'Add a Reply', new_post_comment_path(@post, parent_id: comment.id), remote: true %>
+  <div class="p-2">
+    <div class="my-2 p-3 bg-light">
+      <strong><%= comment.user.name %></strong> : <%= comment.body %>
+      <div class="mb-3">
+      <% if current_user %>
+      
+       <% if current_user.admin? %>
+        <%= button_to 'Delete', [comment.post, comment], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary' %> |
+        <% end %>
+     <%= link_to 'reply', '#', class: 'comment-reply-form', remote: true, onclick: 'showNextSibling(event, this); return false;' %>
+      <div style="display: none;">
+        <%= render 'comments/reply_form', parent_id: comment.id %>
+      </div>
+      </div>
 
-<div class= "ps-4">
-  <% if comment.replies.any? %>
-    <% comment.replies.each do |reply| %> 
- <%= render 'comments/reply', reply: reply %> 
-
- <br>
-    <% end %>
-  <% end %>
-  </div>
-
-
-<br>
-<% if @post.user_id == current_user.id || current_user.admin? %>
-  <%= link_to 'Delete Comment', [comment.post, comment], data: {
-                turbo_method: :delete,
-                turbo_confirm: "Are you sure?"
-              } %>
-            <% end %>          
-</div>
+        <div class= "ps-3">
+          <% if comment.replies.any? %>
+            <% comment.replies.each do |reply| %> 
+            <%= render 'comments/reply', reply: reply %> <br>
+            <% end %>
+          <% end %>
+            
+          <% end %>
+        </div>  
+    </div>
 </div>
 <% end %>
