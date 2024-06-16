@@ -1,0 +1,31 @@
+.alert {
+  background-color: transparent;
+  color: inherit;
+}
+
+.alert-success {
+  color: green;
+}
+
+.alert-danger {
+  color: red;
+}
+.field ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.field ul li {
+  margin: 5px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.field ul li:hover {
+  background-color: #f0f0f0;
+}
+
+.field ul li input {
+  margin-right: 10px;
+}

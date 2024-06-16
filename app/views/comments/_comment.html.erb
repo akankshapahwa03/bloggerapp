@@ -1,31 +1,37 @@
-
-
 <% unless comment.parent_id || !comment.persisted? %>
-
   <div class="p-2">
     <div class="my-2 p-3 bg-light">
       <strong><%= comment.user.name %></strong> : <%= comment.body %>
       <div class="mb-3">
-      <% if current_user %>
-      
-       <% if current_user.admin? %>
-        <%= button_to 'Delete', [comment.post, comment], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-primary' %> |
-        <% end %>
-     <%= link_to 'reply', '#', class: 'comment-reply-form', remote: true, onclick: 'showNextSibling(event, this); return false;' %>
-      <div style="display: none;">
-        <%= render 'comments/reply_form', parent_id: comment.id %>
-      </div>
+        <% if current_user %>
+          <div class="d-flex flex-row">
+            <% if current_user.admin? %>
+              <%= button_to 'Delete', [comment.post, comment], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-link p-0' %> |
+            <% end %>
+            <% unless already_liked?(comment) %>
+              <%= button_to 'Like', post_comment_likes_path(comment.post, comment, likeable_type: 'Comment', likeable_id: comment.id), method: :post, class: 'btn btn-link p-0' %>
+            <% else %>
+              <% like = comment.likes.find_by(user_id: current_user.id) %>
+              <%= button_to 'Unlike', post_comment_like_path(comment.post, comment, id: like.id, likeable_type: 'Comment', likeable_id: comment.id), method: :delete, class: 'btn btn-link p-0' %>
+            <% end %> |
+            <%= link_to 'Reply', '#', remote: true, onclick: 'toggleNextSibling(event, this); return false;', class: 'btn btn-link p-0' %>
+          </div>
+          <div class="reply-form-container" style="display: none; margin-top: 10px; width: 100%;">
+            <%= render 'comments/reply_form', parent_id: comment.id %>
+          </div>
+     
       </div>
 
-        <div class= "ps-3">
-          <% if comment.replies.any? %>
-            <% comment.replies.each do |reply| %> 
+      <div class="ps-3">
+        <% if comment.replies.any? %>
+          <h4 class="fw-bold">Replies</h4>
+          <% comment.replies.each do |reply| %> 
             <%= render 'comments/reply', reply: reply %> <br>
-            <% end %>
           <% end %>
-            
-          <% end %>
-        </div>  
+        <% end %>
+      </div>
     </div>
-</div>
+  </div>
 <% end %>
+<% end %>
+

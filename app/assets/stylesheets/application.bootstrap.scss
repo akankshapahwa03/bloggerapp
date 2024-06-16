@@ -1,15 +1,7 @@
 @import "bootstrap/scss/bootstrap";
 @import "bootstrap-icons/font/bootstrap-icons";
+@import "custom";
 
-.alert {
-  background-color: transparent;
-  color: inherit;
-}
-
-.alert-success {
-  color: green;
-}
-
-.alert-danger {
-  color: red;
-}
+//= link_tree ../images
+//= link_tree ../builds
+//= link custom.css

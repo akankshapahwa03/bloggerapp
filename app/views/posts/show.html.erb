@@ -1,7 +1,26 @@
-<!-- Display Post Content -->
-<h1 class="text-center"><%= @post.title %></h1>
-<p class="text-center"><%= @post.description %></p>
-<p class="text-center">Blog by: <strong><%= @post.user.email %></strong></p>
+<div class="d-flex flex-row ">
+<div class="w-50 me-3">
+<h1><%= @post.title %></h1>
+<p><%= @post.description %></p>
+<p>Blog by: <strong><%= @post.user.email %></strong></p>
+
+ <%= button_to 'Like', post_likes_path(@post, likeable_type: 'Post', likeable_id: @post.id), class: 'btn btn-link px-0', method: :post unless already_liked?(@post) %>
+<%= button_to 'Unlike', post_like_path(@post, id: @post.likes.find_by(user_id: current_user.id).id, likeable_type: 'Post', likeable_id: @post.id), class: 'btn btn-link px-0', method: :delete if already_liked?(@post) %>
+
+<%= @post.likes.count %> <%= (@post.likes.count) == 1 ? 'Like' : 'Likes' %>
+<br>
+<%= link_to 'liked by', '#', class: 'post-like', onclick: 'toggleNextSiblingLike(event, this); return false;' %>
+
+
+ <div style="display: none;">
+<ul>
+  <% @post.liking_users.each do |liker| %>
+     <li class= "list-unstyled"><%= liker.name %></li>
+  <% end %>
+  </ul>
+</div> 
+</div>
+<div class="w-50 me-3">
 <h3 class="fw-bold">Comments</h3>
 <%= render 'comments/form' %>
 <%= render @comments %>
@@ -13,21 +32,27 @@
                                                     turbo_confirm: "Are you sure?"}, class: 'btn btn-primary' %>
 </div>
 <% end %>
-
+</div>
+</div>
 <script>
-
-// document.querySelectorAll('.comment-reply-form').forEach((el) => {
-//     el.addEventListener('click', (ev) => {
-//         ev.preventDefault();
-//         el.nextElementSibling.style = 'display: block;'
-//     })
-// })
-function showNextSibling(event, element) {
+function toggleNextSiblingLike(event, element) {
     event.preventDefault();
-    element.nextElementSibling.style.display = 'block';
+    const nextSibling = element.nextElementSibling;
+    if (nextSibling.style.display === 'block') {
+        nextSibling.style.display = 'none';
+    } else {
+        nextSibling.style.display = 'block';
+    }
 }
 
-
-
+function toggleNextSibling(event, element) {
+    event.preventDefault();
+    const nextSibling = element.parentNode.parentNode.querySelector('.reply-form-container');
+    if (nextSibling.style.display === 'block') {
+        nextSibling.style.display = 'none';
+    } else {
+        nextSibling.style.display = 'block';
+    }
+}
 </script>
 

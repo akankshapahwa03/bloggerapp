@@ -1,5 +1,4 @@
 <div>
-  <div>
     <%= form_with(model: [@post, @comment]) do |f| %>
   
       <%= f.hidden_field :parent_id, value: parent_id %>
@@ -8,8 +7,8 @@
        
         <%= f.text_area :body, class: 'form-control' %>
       </div>
+      <div class="mt-2">
       <%= f.submit 'Submit', class: 'btn btn-primary' %>
-      <%= link_to 'Cancel', @post, class: 'btn btn-secondary' %>
+      </div>
     <% end %>
-  </div>
-</div> 
+</div>

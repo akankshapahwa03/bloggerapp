@@ -11,6 +11,7 @@ class PostsController < ApplicationController
     @user = @post.user
     @comment = @post.comments.new(parent_id: params[:parent_id])
     @comments = @post.comments.order(id: :desc)
+    liking_users = @post.liking_users
   end
 
   def new
@@ -50,8 +51,8 @@ class PostsController < ApplicationController
  
   end
 
-
   private
+  
     def post_params
       params.require(:post).permit(:title, :description, :category_id, :user_id)
     end
